@@ -18553,7 +18553,7 @@ do_system_config_files_check() {
 			RKHTMPVAR2=""
 
 			if [ $USE_SSHDT -eq 1 ]; then
-				RKHTMPVAR2=`${SSHD_CMD} -T 2>/dev/null | ${AWK_CMD} '{ IGNORECASE=1; if (/^PermitRootLogin /) print tolower($2); }' 2>/dev/null`
+				RKHTMPVAR2=`${SSHD_CMD} -T 2>/dev/null | ${AWK_CMD} 'tolower($1) == "permitrootlogin" { print tolower($2) }' 2>/dev/null`
 			else
 				RKHTMPVAR=`grep -i '^[ 	]*PermitRootLogin[ 	=]' ${SSH_CONFIG_FILES} 2>/dev/null | tail ${TAIL_OPT}1`
 
@@ -18599,7 +18599,7 @@ do_system_config_files_check() {
 			RKHTMPVAR=""
 
 			if [ $USE_SSHDT -eq 1 ]; then
-				RKHTMPVAR=`${SSHD_CMD} -T 2>/dev/null | ${AWK_CMD} '{ IGNORECASE=1; if (/^Protocol /) print $2; }' 2>/dev/null`
+				RKHTMPVAR=`${SSHD_CMD} -T 2>/dev/null | ${AWK_CMD} 'tolower($1) == "protocol" { print $2 }' 2>/dev/null`
 			else
 				RKHTMPVAR2=`grep -i '^Protocol[ 	=]' ${SSH_CONFIG_FILES} 2>/dev/null | tail ${TAIL_OPT}1`
 
